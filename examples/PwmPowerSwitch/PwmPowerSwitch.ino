@@ -3,6 +3,7 @@
 #include "Array.h"
 #include "SPI.h"
 #include "PowerSwitch.h"
+#include "TimerOne.h"
 #include "EventController.h"
 
 

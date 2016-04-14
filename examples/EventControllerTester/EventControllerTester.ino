@@ -1,6 +1,7 @@
 #include "Arduino.h"
 #include "Streaming.h"
 #include "Array.h"
+#include "TimerOne.h"
 #include "EventController.h"
 
 

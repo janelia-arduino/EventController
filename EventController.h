@@ -12,9 +12,8 @@
 #else
 #include "WProgram.h"
 #endif
-#include <util/atomic.h>
 #include "Array.h"
-
+#include "TimerOne.h"
 #include "Streaming.h"
 
 namespace EventController
@@ -25,6 +24,7 @@ typedef uint8_t index_t;
 
 const int EVENT_COUNT_MAX = 32;
 const int DEFAULT_INDEX = 255;
+const int MICRO_SEC_PER_MILLI_SEC = 1000;
 
 struct Event
 {

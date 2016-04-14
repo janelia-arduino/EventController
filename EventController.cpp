@@ -19,19 +19,17 @@ void EventController::setup()
 uint32_t EventController::getTime()
 {
   uint32_t time;
-  ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
-  {
-    time = millis_;
-  }
+  noInterrupts();
+  time = millis_;
+  interrupts();
   return time;
 }
 
 void EventController::setTime(const uint32_t time)
 {
-  ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
-  {
-    millis_ = time;
-  }
+  noInterrupts();
+  millis_ = time;
+  interrupts();
 }
 
 EventId EventController::addEvent(const Callback callback,
@@ -550,19 +548,10 @@ int EventController::countActiveEvents()
 
 bool EventController::startTimer()
 {
-  ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
-  {
-    millis_ = 0;
-    TCCR5A = 0;                 // clear control register A
-    TCCR5B = _BV(WGM53);        // set mode 8: phase and frequency correct pwm, stop the timer
-    long cycles = (F_CPU / 2000); // the counter runs backwards after TOP, interrupt is at BOTTOM so divide microseconds by 2
-    unsigned char clockSelectBits = _BV(CS50);  // no prescale, full xtal
-    ICR5 = cycles;                // ICR5 is TOP in p & f correct pwm mode
-
-    TCCR5B &= ~(_BV(CS50) | _BV(CS51) | _BV(CS52));
-    TCCR5B |= clockSelectBits;   // reset clock select register, and starts the clock
-    TIMSK5 = _BV(TOIE5);         // sets the timer overflow interrupt enable bit
-  }
+  noInterrupts();
+  Timer1.initialize(MICRO_SEC_PER_MILLI_SEC);
+  Timer1.attachInterrupt(eventControllerUpdate);
+  interrupts();
 }
 
 index_t EventController::findAvailableEventIndex()
@@ -577,10 +566,10 @@ index_t EventController::findAvailableEventIndex()
 
 void EventController::update()
 {
-  ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
-  {
-    ++millis_;
-  }
+  noInterrupts();
+  ++millis_;
+  interrupts();
+
   for (index_t event_index = 0; event_index < EVENT_COUNT_MAX; ++event_index)
   {
     Event& event = event_array_[event_index];
@@ -627,9 +616,4 @@ bool operator==(const EventIdPair& lhs, const EventIdPair& rhs)
   return (lhs.event_id_0 == rhs.event_id_0) && (lhs.event_id_1 == rhs.event_id_1);
 }
 
-}
-
-ISR(TIMER5_OVF_vect)
-{
-  EventController::eventControllerUpdate();
 }
