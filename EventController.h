@@ -210,6 +210,8 @@ public:
   void disableEvent(const EventId event_id);
   void disableEventPair(const EventIdPair event_id_pair);
   Event getEvent(const EventId event_id);
+  Event getEvent(const index_t event_index);
+  void setEventArgToEventIndex(const EventId event_id);
   bool activeEvents();
   int countActiveEvents();
   int getEventCountMax();

@@ -301,7 +301,7 @@ EventIdPair EventController::addPwmUsingTimePeriodOnDuration(const Callback call
                                                         count,
                                                         arg,
                                                         callback_start,
-                                                        NULL);
+                                                        callback_stop);
   event_id_pair.event_id_1 = addRecurringEventUsingOffset(callback_1,
                                                           event_id_pair.event_id_0,
                                                           on_duration_ms,
@@ -309,7 +309,7 @@ EventIdPair EventController::addPwmUsingTimePeriodOnDuration(const Callback call
                                                           count,
                                                           arg,
                                                           NULL,
-                                                          callback_stop);
+                                                          NULL);
   return event_id_pair;
 }
 
@@ -528,6 +528,27 @@ Event EventController::getEvent(const EventId event_id)
   }
 }
 
+Event EventController::getEvent(const index_t event_index)
+{
+  if (event_index < EVENT_COUNT_MAX)
+  {
+    return event_array_[event_index];
+  }
+  else
+  {
+    return default_event;
+  }
+}
+
+void EventController::setEventArgToEventIndex(const EventId event_id)
+{
+  index_t event_index = event_id.index;
+  if (event_index < EVENT_COUNT_MAX)
+  {
+    event_array_[event_index].arg = event_index;
+  }
+}
+
 bool EventController::activeEvents()
 {
   return (countActiveEvents() > 0);
@@ -590,14 +611,14 @@ void EventController::update()
           }
           (*event.callback)(event.arg);
           ++event.inc;
-          if (event.callback_stop && (event.inc == event.count))
-          {
-            (*event.callback_stop)(event.arg);
-          }
         }
       }
       else
       {
+        if (event.callback_stop)
+        {
+          (*event.callback_stop)(event.arg);
+        }
         removeEvent(event_index);
       }
     }
