@@ -88,22 +88,22 @@ void setup()
                                                                   counter_event_id,
                                                                   TRIGGER_OFFSET);
   event_controller.enable(trigger_event_id);
-  EventIdPair led_event_id_pair = event_controller.addPwmUsingDelayPeriodOnDuration(makeFunctor((Functor1<int> *)0,ledOnEventCallback),
-                                                                                    makeFunctor((Functor1<int> *)0,ledOffEventCallback),
-                                                                                    LED_DELAY,
-                                                                                    LED_PERIOD,
-                                                                                    LED_ON_DURATION,
-                                                                                    LED_COUNT);
+  EventIdPair led_event_id_pair = event_controller.addPwmUsingDelay(makeFunctor((Functor1<int> *)0,ledOnEventCallback),
+                                                                    makeFunctor((Functor1<int> *)0,ledOffEventCallback),
+                                                                    LED_DELAY,
+                                                                    LED_PERIOD,
+                                                                    LED_ON_DURATION,
+                                                                    LED_COUNT);
   event_controller.addStartCallback(led_event_id_pair,
                                     makeFunctor((Functor1<int> *)0,ledPwmStartEventCallback));
   event_controller.addStopCallback(led_event_id_pair,
                                    makeFunctor((Functor1<int> *)0,ledPwmStopEventCallback));
   event_controller.enable(led_event_id_pair);
-  led_2_event_id_pair = event_controller.addInfinitePwmUsingDelayPeriodOnDuration(makeFunctor((Functor1<int> *)0,ledOnEventCallback),
-                                                                                  makeFunctor((Functor1<int> *)0,ledOffEventCallback),
-                                                                                  LED_2_DELAY,
-                                                                                  LED_2_PERIOD,
-                                                                                  LED_2_ON_DURATION);
+  led_2_event_id_pair = event_controller.addInfinitePwmUsingDelay(makeFunctor((Functor1<int> *)0,ledOnEventCallback),
+                                                                  makeFunctor((Functor1<int> *)0,ledOffEventCallback),
+                                                                  LED_2_DELAY,
+                                                                  LED_2_PERIOD,
+                                                                  LED_2_ON_DURATION);
   event_controller.enable(led_2_event_id_pair);
 }
 

@@ -245,13 +245,13 @@ EventId EventController::addInfiniteRecurringEventUsingOffset(const Functor1<int
   }
 }
 
-EventIdPair EventController::addPwmUsingTimePeriodOnDuration(const Functor1<int> & callback_0,
-                                                             const Functor1<int> & callback_1,
-                                                             const uint32_t time,
-                                                             const uint32_t period_ms,
-                                                             const uint32_t on_duration_ms,
-                                                             const uint16_t count,
-                                                             const int arg)
+EventIdPair EventController::addPwmUsingTime(const Functor1<int> & callback_0,
+                                             const Functor1<int> & callback_1,
+                                             const uint32_t time,
+                                             const uint32_t period_ms,
+                                             const uint32_t on_duration_ms,
+                                             const uint16_t count,
+                                             const int arg)
 {
   EventIdPair event_id_pair;
   event_id_pair.event_id_0 = addRecurringEventUsingTime(callback_0,
@@ -268,46 +268,46 @@ EventIdPair EventController::addPwmUsingTimePeriodOnDuration(const Functor1<int>
   return event_id_pair;
 }
 
-EventIdPair EventController::addPwmUsingDelayPeriodOnDuration(const Functor1<int> & callback_0,
-                                                              const Functor1<int> & callback_1,
-                                                              const uint32_t delay,
-                                                              const uint32_t period_ms,
-                                                              const uint32_t on_duration_ms,
-                                                              const uint16_t count,
-                                                              const int arg)
+EventIdPair EventController::addPwmUsingDelay(const Functor1<int> & callback_0,
+                                              const Functor1<int> & callback_1,
+                                              const uint32_t delay,
+                                              const uint32_t period_ms,
+                                              const uint32_t on_duration_ms,
+                                              const uint16_t count,
+                                              const int arg)
 {
   uint32_t time_now = getTime();
   uint32_t time = time_now + delay;
-  return addPwmUsingTimePeriodOnDuration(callback_0,
-                                         callback_1,
-                                         time,
-                                         period_ms,
-                                         on_duration_ms,
-                                         count,
-                                         arg);
+  return addPwmUsingTime(callback_0,
+                         callback_1,
+                         time,
+                         period_ms,
+                         on_duration_ms,
+                         count,
+                         arg);
 }
 
-EventIdPair EventController::addPwmUsingOffsetPeriodOnDuration(const Functor1<int> & callback_0,
-                                                               const Functor1<int> & callback_1,
-                                                               const EventId event_id_origin,
-                                                               const uint32_t offset,
-                                                               const uint32_t period_ms,
-                                                               const uint32_t on_duration_ms,
-                                                               const uint16_t count,
-                                                               const int arg)
+EventIdPair EventController::addPwmUsingOffset(const Functor1<int> & callback_0,
+                                               const Functor1<int> & callback_1,
+                                               const EventId event_id_origin,
+                                               const uint32_t offset,
+                                               const uint32_t period_ms,
+                                               const uint32_t on_duration_ms,
+                                               const uint16_t count,
+                                               const int arg)
 {
   index_t event_index_origin = event_id_origin.index;
   if (event_index_origin < EVENT_COUNT_MAX)
   {
     uint32_t time_origin = event_array_[event_index_origin].time;
     uint32_t time = time_origin + offset;
-    return addPwmUsingTimePeriodOnDuration(callback_0,
-                                           callback_1,
-                                           time,
-                                           period_ms,
-                                           on_duration_ms,
-                                           count,
-                                           arg);
+    return addPwmUsingTime(callback_0,
+                           callback_1,
+                           time,
+                           period_ms,
+                           on_duration_ms,
+                           count,
+                           arg);
   }
   else
   {
@@ -315,12 +315,12 @@ EventIdPair EventController::addPwmUsingOffsetPeriodOnDuration(const Functor1<in
   }
 }
 
-EventIdPair EventController::addInfinitePwmUsingTimePeriodOnDuration(const Functor1<int> & callback_0,
-                                                                     const Functor1<int> & callback_1,
-                                                                     const uint32_t time,
-                                                                     const uint32_t period_ms,
-                                                                     const uint32_t on_duration_ms,
-                                                                     const int arg)
+EventIdPair EventController::addInfinitePwmUsingTime(const Functor1<int> & callback_0,
+                                                     const Functor1<int> & callback_1,
+                                                     const uint32_t time,
+                                                     const uint32_t period_ms,
+                                                     const uint32_t on_duration_ms,
+                                                     const int arg)
 {
   EventIdPair event_id_pair;
   event_id_pair.event_id_0 = addInfiniteRecurringEventUsingTime(callback_0,
@@ -335,42 +335,42 @@ EventIdPair EventController::addInfinitePwmUsingTimePeriodOnDuration(const Funct
   return event_id_pair;
 }
 
-EventIdPair EventController::addInfinitePwmUsingDelayPeriodOnDuration(const Functor1<int> & callback_0,
-                                                                      const Functor1<int> & callback_1,
-                                                                      const uint32_t delay,
-                                                                      const uint32_t period_ms,
-                                                                      const uint32_t on_duration_ms,
-                                                                      const int arg)
+EventIdPair EventController::addInfinitePwmUsingDelay(const Functor1<int> & callback_0,
+                                                      const Functor1<int> & callback_1,
+                                                      const uint32_t delay,
+                                                      const uint32_t period_ms,
+                                                      const uint32_t on_duration_ms,
+                                                      const int arg)
 {
   uint32_t time_now = getTime();
   uint32_t time = time_now + delay;
-  return addInfinitePwmUsingTimePeriodOnDuration(callback_0,
-                                                 callback_1,
-                                                 time,
-                                                 period_ms,
-                                                 on_duration_ms,
-                                                 arg);
+  return addInfinitePwmUsingTime(callback_0,
+                                 callback_1,
+                                 time,
+                                 period_ms,
+                                 on_duration_ms,
+                                 arg);
 }
 
-EventIdPair EventController::addInfinitePwmUsingOffsetPeriodOnDuration(const Functor1<int> & callback_0,
-                                                                       const Functor1<int> & callback_1,
-                                                                       const EventId event_id_origin,
-                                                                       const uint32_t offset,
-                                                                       const uint32_t period_ms,
-                                                                       const uint32_t on_duration_ms,
-                                                                       const int arg)
+EventIdPair EventController::addInfinitePwmUsingOffset(const Functor1<int> & callback_0,
+                                                       const Functor1<int> & callback_1,
+                                                       const EventId event_id_origin,
+                                                       const uint32_t offset,
+                                                       const uint32_t period_ms,
+                                                       const uint32_t on_duration_ms,
+                                                       const int arg)
 {
   index_t event_index_origin = event_id_origin.index;
   if (event_index_origin < EVENT_COUNT_MAX)
   {
     uint32_t time_origin = event_array_[event_index_origin].time;
     uint32_t time = time_origin + offset;
-    return addInfinitePwmUsingTimePeriodOnDuration(callback_0,
-                                                   callback_1,
-                                                   time,
-                                                   period_ms,
-                                                   on_duration_ms,
-                                                   arg);
+    return addInfinitePwmUsingTime(callback_0,
+                                   callback_1,
+                                   time,
+                                   period_ms,
+                                   on_duration_ms,
+                                   arg);
   }
   else
   {

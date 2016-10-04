@@ -31,11 +31,11 @@ void setup()
 
   event_controller.setup();
 
-  EventIdPair event_id_pair = event_controller.addInfinitePwmUsingDelayPeriodOnDuration(makeFunctor((Functor1<int> *)0,pinHighEventCallback),
-                                                                                        makeFunctor((Functor1<int> *)0,pinLowEventCallback),
-                                                                                        DELAY_MS,
-                                                                                        PERIOD_MS,
-                                                                                        ON_DURATION_MS);
+  EventIdPair event_id_pair = event_controller.addInfinitePwmUsingDelay(makeFunctor((Functor1<int> *)0,pinHighEventCallback),
+                                                                        makeFunctor((Functor1<int> *)0,pinLowEventCallback),
+                                                                        DELAY_MS,
+                                                                        PERIOD_MS,
+                                                                        ON_DURATION_MS);
   event_controller.enable(event_id_pair);
 }
 

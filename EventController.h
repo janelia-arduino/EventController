@@ -118,47 +118,47 @@ public:
                                                const uint32_t offset,
                                                const uint32_t period_ms,
                                                const int arg=-1);
-  EventIdPair addPwmUsingTimePeriodOnDuration(const Functor1<int> & callback_0,
-                                              const Functor1<int> & callback_1,
-                                              const uint32_t time,
-                                              const uint32_t period_ms,
-                                              const uint32_t on_duration_ms,
-                                              const uint16_t count,
-                                              const int arg=-1);
-  EventIdPair addPwmUsingDelayPeriodOnDuration(const Functor1<int> & callback_0,
-                                               const Functor1<int> & callback_1,
-                                               const uint32_t delay,
-                                               const uint32_t period_ms,
-                                               const uint32_t on_duration_ms,
-                                               const uint16_t count,
-                                               const int arg=-1);
-  EventIdPair addPwmUsingOffsetPeriodOnDuration(const Functor1<int> & callback_0,
-                                                const Functor1<int> & callback_1,
-                                                const EventId event_id_origin,
-                                                const uint32_t offset,
-                                                const uint32_t period_ms,
-                                                const uint32_t on_duration_ms,
-                                                const uint16_t count,
-                                                const int arg=-1);
-  EventIdPair addInfinitePwmUsingTimePeriodOnDuration(const Functor1<int> & callback_0,
-                                                      const Functor1<int> & callback_1,
-                                                      const uint32_t time,
-                                                      const uint32_t period_ms,
-                                                      const uint32_t on_duration_ms,
-                                                      const int arg=-1);
-  EventIdPair addInfinitePwmUsingDelayPeriodOnDuration(const Functor1<int> & callback_0,
-                                                       const Functor1<int> & callback_1,
-                                                       const uint32_t delay,
-                                                       const uint32_t period_ms,
-                                                       const uint32_t on_duration_ms,
-                                                       const int arg=-1);
-  EventIdPair addInfinitePwmUsingOffsetPeriodOnDuration(const Functor1<int> & callback_0,
-                                                        const Functor1<int> & callback_1,
-                                                        const EventId event_id_origin,
-                                                        const uint32_t offset,
-                                                        const uint32_t period_ms,
-                                                        const uint32_t on_duration_ms,
-                                                        const int arg=-1);
+  EventIdPair addPwmUsingTime(const Functor1<int> & callback_0,
+                              const Functor1<int> & callback_1,
+                              const uint32_t time,
+                              const uint32_t period_ms,
+                              const uint32_t on_duration_ms,
+                              const uint16_t count,
+                              const int arg=-1);
+  EventIdPair addPwmUsingDelay(const Functor1<int> & callback_0,
+                               const Functor1<int> & callback_1,
+                               const uint32_t delay,
+                               const uint32_t period_ms,
+                               const uint32_t on_duration_ms,
+                               const uint16_t count,
+                               const int arg=-1);
+  EventIdPair addPwmUsingOffset(const Functor1<int> & callback_0,
+                                const Functor1<int> & callback_1,
+                                const EventId event_id_origin,
+                                const uint32_t offset,
+                                const uint32_t period_ms,
+                                const uint32_t on_duration_ms,
+                                const uint16_t count,
+                                const int arg=-1);
+  EventIdPair addInfinitePwmUsingTime(const Functor1<int> & callback_0,
+                                      const Functor1<int> & callback_1,
+                                      const uint32_t time,
+                                      const uint32_t period_ms,
+                                      const uint32_t on_duration_ms,
+                                      const int arg=-1);
+  EventIdPair addInfinitePwmUsingDelay(const Functor1<int> & callback_0,
+                                       const Functor1<int> & callback_1,
+                                       const uint32_t delay,
+                                       const uint32_t period_ms,
+                                       const uint32_t on_duration_ms,
+                                       const int arg=-1);
+  EventIdPair addInfinitePwmUsingOffset(const Functor1<int> & callback_0,
+                                        const Functor1<int> & callback_1,
+                                        const EventId event_id_origin,
+                                        const uint32_t offset,
+                                        const uint32_t period_ms,
+                                        const uint32_t on_duration_ms,
+                                        const int arg=-1);
   void addStartCallback(const EventId event_id, const Functor1<int> & callback);
   void addStopCallback(const EventId event_id, const Functor1<int> & callback);
   void addStartCallback(const EventIdPair event_id_pair, const Functor1<int> & callback);
