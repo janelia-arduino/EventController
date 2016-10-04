@@ -2,6 +2,7 @@
 #include "Streaming.h"
 #include "Array.h"
 #include "TimerOne.h"
+#include "Functor.h"
 #include "EventController.h"
 
 
@@ -26,9 +27,9 @@ int clock = 0;
 int counter = 0;
 boolean triggered = false;
 
-EventController::EventId clock_event_id;
-EventController::EventId counter_event_id;
-EventController::EventIdPair led_2_event_id_pair;
+EventId clock_event_id;
+EventId counter_event_id;
+EventIdPair led_2_event_id_pair;
 
 void clockUpdateEventCallback(int arg=-1)
 {
@@ -73,29 +74,37 @@ void setup()
   pinMode(LED_PIN, OUTPUT);
   ledOffEventCallback();
 
-  EventController::event_controller.setup();
-  clock_event_id = EventController::event_controller.addInfiniteRecurringEventUsingDelay(clockUpdateEventCallback,
-                                                                                         CLOCK_START_DELAY,
-                                                                                         CLOCK_PERIOD);
-  counter_event_id = EventController::event_controller.addRecurringEventUsingDelay(counterUpdateEventCallback,
-                                                                                   COUNTER_START_DELAY,
-                                                                                   CLOCK_PERIOD,
-                                                                                   COUNTER_LIMIT);
-  EventController::event_controller.addEventUsingOffset(triggerEventCallback,counter_event_id,TRIGGER_OFFSET);
-  EventController::event_controller.addPwmUsingDelayPeriodOnDuration(ledOnEventCallback,
-                                                                     ledOffEventCallback,
-                                                                     LED_DELAY,
-                                                                     LED_PERIOD,
-                                                                     LED_ON_DURATION,
-                                                                     LED_COUNT,
-                                                                     -1,
-                                                                     ledPwmStartEventCallback,
-                                                                     ledPwmStopEventCallback);
-  led_2_event_id_pair = EventController::event_controller.addInfinitePwmUsingDelayPeriodOnDuration(ledOnEventCallback,
-                                                                                                   ledOffEventCallback,
-                                                                                                   LED_2_DELAY,
-                                                                                                   LED_2_PERIOD,
-                                                                                                   LED_2_ON_DURATION);
+  event_controller.setup();
+  clock_event_id = event_controller.addInfiniteRecurringEventUsingDelay(makeFunctor((Functor1<int> *)0,clockUpdateEventCallback),
+                                                                        CLOCK_START_DELAY,
+                                                                        CLOCK_PERIOD);
+  event_controller.enable(clock_event_id);
+  counter_event_id = event_controller.addRecurringEventUsingDelay(makeFunctor((Functor1<int> *)0,counterUpdateEventCallback),
+                                                                  COUNTER_START_DELAY,
+                                                                  CLOCK_PERIOD,
+                                                                  COUNTER_LIMIT);
+  event_controller.enable(counter_event_id);
+  EventId trigger_event_id = event_controller.addEventUsingOffset(makeFunctor((Functor1<int> *)0,triggerEventCallback),
+                                                                  counter_event_id,
+                                                                  TRIGGER_OFFSET);
+  event_controller.enable(trigger_event_id);
+  EventIdPair led_event_id_pair = event_controller.addPwmUsingDelayPeriodOnDuration(makeFunctor((Functor1<int> *)0,ledOnEventCallback),
+                                                                                    makeFunctor((Functor1<int> *)0,ledOffEventCallback),
+                                                                                    LED_DELAY,
+                                                                                    LED_PERIOD,
+                                                                                    LED_ON_DURATION,
+                                                                                    LED_COUNT);
+  event_controller.addStartCallback(led_event_id_pair,
+                                    makeFunctor((Functor1<int> *)0,ledPwmStartEventCallback));
+  event_controller.addStopCallback(led_event_id_pair,
+                                   makeFunctor((Functor1<int> *)0,ledPwmStopEventCallback));
+  event_controller.enable(led_event_id_pair);
+  led_2_event_id_pair = event_controller.addInfinitePwmUsingDelayPeriodOnDuration(makeFunctor((Functor1<int> *)0,ledOnEventCallback),
+                                                                                  makeFunctor((Functor1<int> *)0,ledOffEventCallback),
+                                                                                  LED_2_DELAY,
+                                                                                  LED_2_PERIOD,
+                                                                                  LED_2_ON_DURATION);
+  event_controller.enable(led_2_event_id_pair);
 }
 
 
@@ -104,15 +113,15 @@ void loop()
   Serial << "clock: " << clock << endl;
   Serial << "counter: " << counter << endl;
   Serial << "triggered: " << triggered << endl;
-  Serial << "countActiveEvents: " << EventController::event_controller.countActiveEvents() << endl;
+  Serial << "countActiveEvents: " << event_controller.countActiveEvents() << endl;
   Serial << endl;
   if (clock == CLOCK_MAX_COUNT)
   {
-    EventController::event_controller.removeEvent(clock_event_id);
+    event_controller.remove(clock_event_id);
   }
   if (clock >= LED_2_END_CLOCK)
   {
-    EventController::event_controller.removeEventPair(led_2_event_id_pair);
+    event_controller.remove(led_2_event_id_pair);
   }
   delay(LOOP_DELAY);
 }

@@ -14,12 +14,10 @@
 #endif
 #include "Array.h"
 #include "TimerOne.h"
+#include "Functor.h"
 #include "Streaming.h"
 
-namespace EventController
-{
 void eventControllerUpdate();
-typedef void (*Callback)(int);
 typedef uint8_t index_t;
 
 const int EVENT_COUNT_MAX = 32;
@@ -28,7 +26,8 @@ const int MICRO_SEC_PER_MILLI_SEC = 1000;
 
 struct Event
 {
-  Callback callback;
+  Functor1<int> callback;
+  uint32_t time_start;
   uint32_t time;
   boolean free;
   boolean enabled;
@@ -37,30 +36,17 @@ struct Event
   uint16_t count;
   uint16_t inc;
   int arg;
-  Callback callback_start;
-  Callback callback_stop;
-  Event() :
-    callback(NULL),
-    time(0),
-    free(true),
-    enabled(false),
-    infinite(false),
-    period_ms(0),
-    count(0),
-    inc(0),
-    arg(-1),
-    callback_start(NULL),
-    callback_stop(NULL) {}
+  Functor1<int> callback_start;
+  Functor1<int> callback_stop;
 };
-const Event default_event;
 
 struct EventId
 {
   index_t index;
-  Callback callback;
+  uint32_t time_start;
   EventId() :
     index(DEFAULT_INDEX),
-    callback(NULL) {}
+    time_start(0) {}
 };
 const EventId default_event_id;
 
@@ -84,131 +70,106 @@ public:
   void setup();
   uint32_t getTime();
   void setTime(const uint32_t time=0);
-  EventId addEvent(const Callback callback,
-                   const int arg=-1,
-                   const Callback callback_start=NULL,
-                   const Callback callback_stop=NULL);
-  EventId addRecurringEvent(const Callback callback,
+  EventId addEvent(const Functor1<int> & callback,
+                   const int arg=-1);
+  EventId addRecurringEvent(const Functor1<int> & callback,
                             const uint32_t period_ms,
                             const uint16_t count,
-                            const int arg=-1,
-                            const Callback callback_start=NULL,
-                            const Callback callback_stop=NULL);
-  EventId addInfiniteRecurringEvent(const Callback callback,
+                            const int arg=-1);
+  EventId addInfiniteRecurringEvent(const Functor1<int> & callback,
                                     const uint32_t period_ms,
-                                    const int arg=-1,
-                                    const Callback callback_start=NULL);
-  EventId addEventUsingTime(const Callback callback,
+                                    const int arg=-1);
+  EventId addEventUsingTime(const Functor1<int> & callback,
                             const uint32_t time,
-                            const int arg=-1,
-                            const Callback callback_start=NULL,
-                            const Callback callback_stop=NULL);
-  EventId addRecurringEventUsingTime(const Callback callback,
+                            const int arg=-1);
+  EventId addRecurringEventUsingTime(const Functor1<int> & callback,
                                      const uint32_t time,
                                      const uint32_t period_ms,
                                      const uint16_t count,
-                                     const int arg=-1,
-                                     const Callback callback_start=NULL,
-                                     const Callback callback_stop=NULL);
-  EventId addInfiniteRecurringEventUsingTime(const Callback callback,
+                                     const int arg=-1);
+  EventId addInfiniteRecurringEventUsingTime(const Functor1<int> & callback,
                                              const uint32_t time,
                                              const uint32_t period_ms,
-                                             const int arg=-1,
-                                             const Callback callback_start=NULL);
-  EventId addEventUsingDelay(const Callback callback,
+                                             const int arg=-1);
+  EventId addEventUsingDelay(const Functor1<int> & callback,
                              const uint32_t delay,
-                             const int arg=-1,
-                             const Callback callback_start=NULL,
-                             const Callback callback_stop=NULL);
-  EventId addRecurringEventUsingDelay(const Callback callback,
+                             const int arg=-1);
+  EventId addRecurringEventUsingDelay(const Functor1<int> & callback,
                                       const uint32_t delay,
                                       const uint32_t period_ms,
                                       const uint16_t count,
-                                      const int arg=-1,
-                                      const Callback callback_start=NULL,
-                                      const Callback callback_stop=NULL);
-  EventId addInfiniteRecurringEventUsingDelay(const Callback callback,
+                                      const int arg=-1);
+  EventId addInfiniteRecurringEventUsingDelay(const Functor1<int> & callback,
                                               const uint32_t delay,
                                               const uint32_t period_ms,
-                                              const int arg=-1,
-                                              const Callback callback_start=NULL);
-  EventId addEventUsingOffset(const Callback callback,
+                                              const int arg=-1);
+  EventId addEventUsingOffset(const Functor1<int> & callback,
                               const EventId event_id_origin,
                               const uint32_t offset,
-                              const int arg=-1,
-                              const Callback callback_start=NULL,
-                              const Callback callback_stop=NULL);
-  EventId addRecurringEventUsingOffset(const Callback callback,
+                              const int arg=-1);
+  EventId addRecurringEventUsingOffset(const Functor1<int> & callback,
                                        const EventId event_id_origin,
                                        const uint32_t offset,
                                        const uint32_t period_ms,
                                        const uint16_t count,
-                                       const int arg=-1,
-                                       const Callback callback_start=NULL,
-                                       const Callback callback_stop=NULL);
-  EventId addInfiniteRecurringEventUsingOffset(const Callback callback,
+                                       const int arg=-1);
+  EventId addInfiniteRecurringEventUsingOffset(const Functor1<int> & callback,
                                                const EventId event_id_origin,
                                                const uint32_t offset,
                                                const uint32_t period_ms,
-                                               const int arg=-1,
-                                               const Callback callback_start=NULL);
-  EventIdPair addPwmUsingTimePeriodOnDuration(const Callback callback_0,
-                                              const Callback callback_1,
+                                               const int arg=-1);
+  EventIdPair addPwmUsingTimePeriodOnDuration(const Functor1<int> & callback_0,
+                                              const Functor1<int> & callback_1,
                                               const uint32_t time,
                                               const uint32_t period_ms,
                                               const uint32_t on_duration_ms,
                                               const uint16_t count,
-                                              const int arg=-1,
-                                              const Callback callback_start=NULL,
-                                              const Callback callback_stop=NULL);
-  EventIdPair addPwmUsingDelayPeriodOnDuration(const Callback callback_0,
-                                               const Callback callback_1,
+                                              const int arg=-1);
+  EventIdPair addPwmUsingDelayPeriodOnDuration(const Functor1<int> & callback_0,
+                                               const Functor1<int> & callback_1,
                                                const uint32_t delay,
                                                const uint32_t period_ms,
                                                const uint32_t on_duration_ms,
                                                const uint16_t count,
-                                               const int arg=-1,
-                                               const Callback callback_start=NULL,
-                                               const Callback callback_stop=NULL);
-  EventIdPair addPwmUsingOffsetPeriodOnDuration(const Callback callback_0,
-                                                const Callback callback_1,
+                                               const int arg=-1);
+  EventIdPair addPwmUsingOffsetPeriodOnDuration(const Functor1<int> & callback_0,
+                                                const Functor1<int> & callback_1,
                                                 const EventId event_id_origin,
                                                 const uint32_t offset,
                                                 const uint32_t period_ms,
                                                 const uint32_t on_duration_ms,
                                                 const uint16_t count,
-                                                const int arg=-1,
-                                                const Callback callback_start=NULL,
-                                                const Callback callback_stop=NULL);
-  EventIdPair addInfinitePwmUsingTimePeriodOnDuration(const Callback callback_0,
-                                                      const Callback callback_1,
+                                                const int arg=-1);
+  EventIdPair addInfinitePwmUsingTimePeriodOnDuration(const Functor1<int> & callback_0,
+                                                      const Functor1<int> & callback_1,
                                                       const uint32_t time,
                                                       const uint32_t period_ms,
                                                       const uint32_t on_duration_ms,
-                                                      const int arg=-1,
-                                                      const Callback callback_start=NULL);
-  EventIdPair addInfinitePwmUsingDelayPeriodOnDuration(const Callback callback_0,
-                                                       const Callback callback_1,
+                                                      const int arg=-1);
+  EventIdPair addInfinitePwmUsingDelayPeriodOnDuration(const Functor1<int> & callback_0,
+                                                       const Functor1<int> & callback_1,
                                                        const uint32_t delay,
                                                        const uint32_t period_ms,
                                                        const uint32_t on_duration_ms,
-                                                       const int arg=-1,
-                                                       const Callback callback_start=NULL);
-  EventIdPair addInfinitePwmUsingOffsetPeriodOnDuration(const Callback callback_0,
-                                                        const Callback callback_1,
+                                                       const int arg=-1);
+  EventIdPair addInfinitePwmUsingOffsetPeriodOnDuration(const Functor1<int> & callback_0,
+                                                        const Functor1<int> & callback_1,
                                                         const EventId event_id_origin,
                                                         const uint32_t offset,
                                                         const uint32_t period_ms,
                                                         const uint32_t on_duration_ms,
-                                                        const int arg=-1,
-                                                        const Callback callback_start=NULL);
-  void removeEvent(const EventId event_id);
-  void removeEventPair(const EventIdPair event_id_pair);
+                                                        const int arg=-1);
+  void addStartCallback(const EventId event_id, const Functor1<int> & callback);
+  void addStopCallback(const EventId event_id, const Functor1<int> & callback);
+  void addStartCallback(const EventIdPair event_id_pair, const Functor1<int> & callback);
+  void addStopCallback(const EventIdPair event_id_pair, const Functor1<int> & callback);
+  void remove(const EventId event_id);
+  void remove(const EventIdPair event_id_pair);
   void removeAllEvents();
-  void enableEvent(const EventId event_id);
-  void enableEventPair(const EventIdPair event_id_pair);
-  void disableEvent(const EventId event_id);
-  void disableEventPair(const EventIdPair event_id_pair);
+  void enable(const EventId event_id);
+  void enable(const EventIdPair event_id_pair);
+  void disable(const EventId event_id);
+  void disable(const EventIdPair event_id_pair);
   Event getEvent(const EventId event_id);
   Event getEvent(const index_t event_index);
   void setEventArgToEventIndex(const EventId event_id);
@@ -221,15 +182,14 @@ private:
   bool startTimer();
   index_t findAvailableEventIndex();
   void update();
-  void removeEvent(const index_t event_index);
-  void enableEvent(const index_t event_index);
-  void disableEvent(const index_t event_index);
+  void remove(const index_t event_index);
+  void enable(const index_t event_index);
+  void disable(const index_t event_index);
   friend void eventControllerUpdate();
 };
 
 extern EventController event_controller;
 
 inline void eventControllerUpdate() {event_controller.update();}
-}
 
 #endif

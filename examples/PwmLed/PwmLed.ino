@@ -2,11 +2,11 @@
 #include "Streaming.h"
 #include "Array.h"
 #include "TimerOne.h"
+#include "Functor.h"
 #include "EventController.h"
 
 
 const int BAUDRATE = 9600;
-const int LOOP_DELAY = 4000;
 const int OUTPUT_PIN = 13;
 const int DELAY_MS = 200;
 const int PERIOD_MS = 2000;
@@ -29,13 +29,14 @@ void setup()
   pinMode(OUTPUT_PIN,OUTPUT);
   digitalWrite(OUTPUT_PIN,LOW);
 
-  EventController::event_controller.setup();
+  event_controller.setup();
 
-  EventController::event_controller.addInfinitePwmUsingDelayPeriodOnDuration(pinHighEventCallback,
-                                                                             pinLowEventCallback,
-                                                                             DELAY_MS,
-                                                                             PERIOD_MS,
-                                                                             ON_DURATION_MS);
+  EventIdPair event_id_pair = event_controller.addInfinitePwmUsingDelayPeriodOnDuration(makeFunctor((Functor1<int> *)0,pinHighEventCallback),
+                                                                                        makeFunctor((Functor1<int> *)0,pinLowEventCallback),
+                                                                                        DELAY_MS,
+                                                                                        PERIOD_MS,
+                                                                                        ON_DURATION_MS);
+  event_controller.enable(event_id_pair);
 }
 
 
