@@ -70,16 +70,17 @@ EventId EventController::addEventUsingTime(const Functor1<int> & callback,
   index_t event_index = findAvailableEventIndex();
   if (event_index < EVENT_COUNT_MAX)
   {
-    event_array_[event_index].callback = callback;
-    event_array_[event_index].time_start = time_start;
-    event_array_[event_index].time = time;
-    event_array_[event_index].free = false;
-    event_array_[event_index].enabled = false;
-    event_array_[event_index].infinite = false;
-    event_array_[event_index].count = 1;
-    event_array_[event_index].period_ms = 0;
-    event_array_[event_index].inc = 0;
-    event_array_[event_index].arg = arg;
+    Event & event = event_array_[event_index];
+    event.callback = callback;
+    event.time_start = time_start;
+    event.time = time;
+    event.free = false;
+    event.enabled = false;
+    event.infinite = false;
+    event.count = 1;
+    event.period_ms = 0;
+    event.inc = 0;
+    event.arg = arg;
   }
   EventId event_id;
   event_id.index = event_index;
@@ -97,16 +98,17 @@ EventId EventController::addRecurringEventUsingTime(const Functor1<int> & callba
   index_t event_index = findAvailableEventIndex();
   if (event_index < EVENT_COUNT_MAX)
   {
-    event_array_[event_index].callback = callback;
-    event_array_[event_index].time_start = time_start;
-    event_array_[event_index].time = time;
-    event_array_[event_index].free = false;
-    event_array_[event_index].enabled = false;
-    event_array_[event_index].infinite = false;
-    event_array_[event_index].period_ms = period_ms;
-    event_array_[event_index].count = count;
-    event_array_[event_index].inc = 0;
-    event_array_[event_index].arg = arg;
+    Event & event = event_array_[event_index];
+    event.callback = callback;
+    event.time_start = time_start;
+    event.time = time;
+    event.free = false;
+    event.enabled = false;
+    event.infinite = false;
+    event.period_ms = period_ms;
+    event.count = count;
+    event.inc = 0;
+    event.arg = arg;
   }
   EventId event_id;
   event_id.index = event_index;
@@ -123,16 +125,17 @@ EventId EventController::addInfiniteRecurringEventUsingTime(const Functor1<int> 
   index_t event_index = findAvailableEventIndex();
   if (event_index < EVENT_COUNT_MAX)
   {
-    event_array_[event_index].callback = callback;
-    event_array_[event_index].time_start = time_start;
-    event_array_[event_index].time = time;
-    event_array_[event_index].free = false;
-    event_array_[event_index].enabled = false;
-    event_array_[event_index].infinite = true;
-    event_array_[event_index].period_ms = period_ms;
-    event_array_[event_index].count = 0;
-    event_array_[event_index].inc = 0;
-    event_array_[event_index].arg = arg;
+    Event & event = event_array_[event_index];
+    event.callback = callback;
+    event.time_start = time_start;
+    event.time = time;
+    event.free = false;
+    event.enabled = false;
+    event.infinite = true;
+    event.period_ms = period_ms;
+    event.count = 0;
+    event.inc = 0;
+    event.arg = arg;
   }
   EventId event_id;
   event_id.index = event_index;
@@ -443,15 +446,20 @@ void EventController::remove(const index_t event_index)
 {
   if (event_index < EVENT_COUNT_MAX)
   {
-    event_array_[event_index].time_start = 0;
-    event_array_[event_index].time = 0;
-    event_array_[event_index].free = true;
-    event_array_[event_index].enabled = false;
-    event_array_[event_index].infinite = false;
-    event_array_[event_index].period_ms = 0;
-    event_array_[event_index].count = 0;
-    event_array_[event_index].inc = 0;
-    event_array_[event_index].arg = -1;
+    Event & event = event_array_[event_index];
+    if (event.callback_stop)
+    {
+      event.callback_stop(event.arg);
+    }
+    event.time_start = 0;
+    event.time = 0;
+    event.free = true;
+    event.enabled = false;
+    event.infinite = false;
+    event.period_ms = 0;
+    event.count = 0;
+    event.inc = 0;
+    event.arg = -1;
   }
 }
 
@@ -613,10 +621,6 @@ void EventController::update()
       }
       else
       {
-        if (event.callback_stop)
-        {
-          event.callback_stop(event.arg);
-        }
         remove(event_index);
       }
     }
