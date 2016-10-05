@@ -25,7 +25,7 @@ const int LED_2_ON_DURATION = LED_ON_DURATION*2;
 const int LED_2_END_CLOCK = CLOCK_MAX_COUNT-5;
 int clock = 0;
 int counter = 0;
-boolean triggered = false;
+bool triggered = false;
 
 EventId clock_event_id;
 EventId counter_event_id;

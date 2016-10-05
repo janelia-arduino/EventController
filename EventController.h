@@ -29,9 +29,9 @@ struct Event
   Functor1<int> callback;
   uint32_t time_start;
   uint32_t time;
-  boolean free;
-  boolean enabled;
-  boolean infinite;
+  bool free;
+  bool enabled;
+  bool infinite;
   uint32_t period_ms;
   uint16_t count;
   uint16_t inc;
