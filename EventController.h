@@ -15,14 +15,8 @@
 #include "Array.h"
 #include "TimerOne.h"
 #include "Functor.h"
-#include "Streaming.h"
+#include "FunctorCallbacks.h"
 
-void eventControllerUpdate();
-typedef uint8_t index_t;
-
-const int EVENT_COUNT_MAX = 32;
-const int DEFAULT_INDEX = 255;
-const int MICRO_SEC_PER_MILLI_SEC = 1000;
 
 struct Event
 {
@@ -39,34 +33,28 @@ struct Event
   Functor1<int> callback_start;
   Functor1<int> callback_stop;
 };
-
 struct EventId
 {
-  index_t index;
+  uint8_t index;
   uint32_t time_start;
   EventId() :
-    index(DEFAULT_INDEX),
+    index(255),
     time_start(0) {}
 };
-const EventId default_event_id;
-
-bool operator==(const EventId& lhs, const EventId& rhs);
-
 struct EventIdPair
 {
   EventId event_id_0;
   EventId event_id_1;
   EventIdPair() :
-    event_id_0(default_event_id),
-    event_id_1(default_event_id) {}
+    event_id_0(EventId()),
+    event_id_1(EventId()) {}
 };
-const EventIdPair default_event_id_pair;
 
-bool operator==(const EventIdPair& lhs, const EventIdPair& rhs);
-
+template <uint8_t EVENT_COUNT_MAX>
 class EventController
 {
 public:
+  enum{MICRO_SEC_PER_MILLI_SEC=1000};
   void setup();
   uint32_t getTime();
   void setTime(const uint32_t time=0);
@@ -171,7 +159,7 @@ public:
   void disable(const EventId event_id);
   void disable(const EventIdPair event_id_pair);
   Event getEvent(const EventId event_id);
-  Event getEvent(const index_t event_index);
+  Event getEvent(const uint8_t event_index);
   void setEventArgToEventIndex(const EventId event_id);
   bool activeEvents();
   int countActiveEvents();
@@ -180,16 +168,16 @@ private:
   volatile uint32_t millis_;
   Array<Event,EVENT_COUNT_MAX> event_array_;
   bool startTimer();
-  index_t findAvailableEventIndex();
+  uint8_t findAvailableEventIndex();
   void update();
-  void remove(const index_t event_index);
-  void enable(const index_t event_index);
-  void disable(const index_t event_index);
-  friend void eventControllerUpdate();
+  void remove(const uint8_t event_index);
+  void enable(const uint8_t event_index);
+  void disable(const uint8_t event_index);
 };
 
-extern EventController event_controller;
+bool operator==(const EventId& lhs, const EventId& rhs);
+bool operator==(const EventIdPair& lhs, const EventIdPair& rhs);
 
-inline void eventControllerUpdate() {event_controller.update();}
+#include "EventControllerDefinitions.h"
 
 #endif

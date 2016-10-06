@@ -12,6 +12,9 @@ const int DELAY_MS = 200;
 const int PERIOD_MS = 2000;
 const int ON_DURATION_MS = 1000;
 
+const int EVENT_COUNT_MAX = 2;
+EventController<EVENT_COUNT_MAX> event_controller;
+
 void pinHighEventCallback(int index)
 {
   digitalWrite(OUTPUT_PIN,HIGH);

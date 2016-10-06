@@ -3,6 +3,7 @@
 #include "Array.h"
 #include "TimerOne.h"
 #include "Functor.h"
+#include "FunctorCallbacks.h"
 #include "EventController.h"
 
 
@@ -23,6 +24,10 @@ const int LED_2_DELAY = LED_DELAY*2 + LED_PERIOD*LED_COUNT;
 const int LED_2_PERIOD = LED_PERIOD*2;
 const int LED_2_ON_DURATION = LED_ON_DURATION*2;
 const int LED_2_END_CLOCK = CLOCK_MAX_COUNT-5;
+
+const int EVENT_COUNT_MAX = 32;
+EventController<EVENT_COUNT_MAX> event_controller;
+
 int clock = 0;
 int counter = 0;
 bool triggered = false;
