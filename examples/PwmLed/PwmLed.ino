@@ -15,12 +15,12 @@ const int ON_DURATION_MS = 1000;
 const int EVENT_COUNT_MAX = 2;
 EventController<EVENT_COUNT_MAX> event_controller;
 
-void pinHighEventCallback(int index)
+void pinHighEventHandler(int index)
 {
   digitalWrite(OUTPUT_PIN,HIGH);
 }
 
-void pinLowEventCallback(int index)
+void pinLowEventHandler(int index)
 {
   digitalWrite(OUTPUT_PIN,LOW);
 }
@@ -34,8 +34,8 @@ void setup()
 
   event_controller.setup();
 
-  EventIdPair event_id_pair = event_controller.addInfinitePwmUsingDelay(makeFunctor((Functor1<int> *)0,pinHighEventCallback),
-                                                                        makeFunctor((Functor1<int> *)0,pinLowEventCallback),
+  EventIdPair event_id_pair = event_controller.addInfinitePwmUsingDelay(makeFunctor((Functor1<int> *)0,pinHighEventHandler),
+                                                                        makeFunctor((Functor1<int> *)0,pinLowEventHandler),
                                                                         DELAY_MS,
                                                                         PERIOD_MS,
                                                                         ON_DURATION_MS);
