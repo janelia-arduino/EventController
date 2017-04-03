@@ -480,7 +480,7 @@ void EventController<EVENT_COUNT_MAX>::remove(const uint8_t event_index)
     {
       event.functor_stop(event.arg);
     }
-    event.functor = functor_dummy;
+    event.functor = functor_dummy_;
     event.time_start = 0;
     event.time = 0;
     event.free = true;
@@ -490,8 +490,8 @@ void EventController<EVENT_COUNT_MAX>::remove(const uint8_t event_index)
     event.count = 0;
     event.inc = 0;
     event.arg = -1;
-    event.functor_start = functor_dummy;
-    event.functor_stop = functor_dummy;
+    event.functor_start = functor_dummy_;
+    event.functor_stop = functor_dummy_;
   }
 }
 

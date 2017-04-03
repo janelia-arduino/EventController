@@ -167,7 +167,7 @@ public:
 private:
   volatile uint32_t millis_;
   Array<Event,EVENT_COUNT_MAX> event_array_;
-  const Functor1<int> functor_dummy;
+  const Functor1<int> functor_dummy_;
   bool startTimer();
   uint8_t findAvailableEventIndex();
   void update();
