@@ -1,4 +1,4 @@
-#EventController
+# EventController
 
 Authors:
 
@@ -11,6 +11,6 @@ License:
 
 [Usage Examples](./examples)
 
-##Install Library Dependencies
+## Install Library Dependencies
 
 [arduino-libraries](https://github.com/janelia-arduino/arduino-libraries)
