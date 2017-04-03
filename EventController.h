@@ -62,7 +62,7 @@ public:
                    const int arg=-1);
   EventId addRecurringEvent(const Functor1<int> & functor,
                             const uint32_t period_ms,
-                            const uint16_t count,
+                            const int32_t count,
                             const int arg=-1);
   EventId addInfiniteRecurringEvent(const Functor1<int> & functor,
                                     const uint32_t period_ms,
@@ -73,7 +73,7 @@ public:
   EventId addRecurringEventUsingTime(const Functor1<int> & functor,
                                      const uint32_t time,
                                      const uint32_t period_ms,
-                                     const uint16_t count,
+                                     const int32_t count,
                                      const int arg=-1);
   EventId addInfiniteRecurringEventUsingTime(const Functor1<int> & functor,
                                              const uint32_t time,
@@ -85,7 +85,7 @@ public:
   EventId addRecurringEventUsingDelay(const Functor1<int> & functor,
                                       const uint32_t delay,
                                       const uint32_t period_ms,
-                                      const uint16_t count,
+                                      const int32_t count,
                                       const int arg=-1);
   EventId addInfiniteRecurringEventUsingDelay(const Functor1<int> & functor,
                                               const uint32_t delay,
@@ -99,7 +99,7 @@ public:
                                        const EventId event_id_origin,
                                        const uint32_t offset,
                                        const uint32_t period_ms,
-                                       const uint16_t count,
+                                       const int32_t count,
                                        const int arg=-1);
   EventId addInfiniteRecurringEventUsingOffset(const Functor1<int> & functor,
                                                const EventId event_id_origin,
@@ -111,14 +111,14 @@ public:
                               const uint32_t time,
                               const uint32_t period_ms,
                               const uint32_t on_duration_ms,
-                              const uint16_t count,
+                              const int32_t count,
                               const int arg=-1);
   EventIdPair addPwmUsingDelay(const Functor1<int> & functor_0,
                                const Functor1<int> & functor_1,
                                const uint32_t delay,
                                const uint32_t period_ms,
                                const uint32_t on_duration_ms,
-                               const uint16_t count,
+                               const int32_t count,
                                const int arg=-1);
   EventIdPair addPwmUsingOffset(const Functor1<int> & functor_0,
                                 const Functor1<int> & functor_1,
@@ -126,7 +126,7 @@ public:
                                 const uint32_t offset,
                                 const uint32_t period_ms,
                                 const uint32_t on_duration_ms,
-                                const uint16_t count,
+                                const int32_t count,
                                 const int arg=-1);
   EventIdPair addInfinitePwmUsingTime(const Functor1<int> & functor_0,
                                       const Functor1<int> & functor_1,

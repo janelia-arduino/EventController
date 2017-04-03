@@ -47,10 +47,14 @@ EventId EventController<EVENT_COUNT_MAX>::addEvent(const Functor1<int> & functor
 template <uint8_t EVENT_COUNT_MAX>
 EventId EventController<EVENT_COUNT_MAX>::addRecurringEvent(const Functor1<int> & functor,
                                                             const uint32_t period_ms,
-                                                            const uint16_t count,
+                                                            const int32_t count,
                                                             const int arg)
 
 {
+  if (count < 0)
+  {
+    return addInfiniteRecurringEvent(functor,period_ms,arg);
+  }
   return addRecurringEventUsingTime(functor,
                                     0,
                                     period_ms,
@@ -100,9 +104,13 @@ template <uint8_t EVENT_COUNT_MAX>
 EventId EventController<EVENT_COUNT_MAX>::addRecurringEventUsingTime(const Functor1<int> & functor,
                                                                      const uint32_t time,
                                                                      const uint32_t period_ms,
-                                                                     const uint16_t count,
+                                                                     const int32_t count,
                                                                      const int arg)
 {
+  if (count < 0)
+  {
+    return addInfiniteRecurringEventUsingTime(functor,time,period_ms,arg);
+  }
   uint32_t time_start = getTime();
   uint8_t event_index = findAvailableEventIndex();
   if (event_index < EVENT_COUNT_MAX)
@@ -169,9 +177,13 @@ template <uint8_t EVENT_COUNT_MAX>
 EventId EventController<EVENT_COUNT_MAX>::addRecurringEventUsingDelay(const Functor1<int> & functor,
                                                                       const uint32_t delay,
                                                                       const uint32_t period_ms,
-                                                                      const uint16_t count,
+                                                                      const int32_t count,
                                                                       const int arg)
 {
+  if (count < 0)
+  {
+    return addInfiniteRecurringEventUsingDelay(functor,delay,period_ms,arg);
+  }
   uint32_t time_now = getTime();
   uint32_t time = time_now + delay;
   return addRecurringEventUsingTime(functor,
@@ -221,9 +233,13 @@ EventId EventController<EVENT_COUNT_MAX>::addRecurringEventUsingOffset(const Fun
                                                                        const EventId event_id_origin,
                                                                        const uint32_t offset,
                                                                        const uint32_t period_ms,
-                                                                       const uint16_t count,
+                                                                       const int32_t count,
                                                                        const int arg)
 {
+  if (count < 0)
+  {
+    return addInfiniteRecurringEventUsingOffset(functor,event_id_origin,offset,period_ms,arg);
+  }
   uint8_t event_index_origin = event_id_origin.index;
   if (event_index_origin < EVENT_COUNT_MAX)
   {
@@ -270,9 +286,13 @@ EventIdPair EventController<EVENT_COUNT_MAX>::addPwmUsingTime(const Functor1<int
                                                               const uint32_t time,
                                                               const uint32_t period_ms,
                                                               const uint32_t on_duration_ms,
-                                                              const uint16_t count,
+                                                              const int32_t count,
                                                               const int arg)
 {
+  if (count < 0)
+  {
+    return addInfinitePwmUsingTime(functor_0,functor_1,time,period_ms,on_duration_ms,arg);
+  }
   EventIdPair event_id_pair;
   event_id_pair.event_id_0 = addRecurringEventUsingTime(functor_0,
                                                         time,
@@ -294,9 +314,13 @@ EventIdPair EventController<EVENT_COUNT_MAX>::addPwmUsingDelay(const Functor1<in
                                                                const uint32_t delay,
                                                                const uint32_t period_ms,
                                                                const uint32_t on_duration_ms,
-                                                               const uint16_t count,
+                                                               const int32_t count,
                                                                const int arg)
 {
+  if (count < 0)
+  {
+    return addInfinitePwmUsingDelay(functor_0,functor_1,delay,period_ms,on_duration_ms,arg);
+  }
   uint32_t time_now = getTime();
   uint32_t time = time_now + delay;
   return addPwmUsingTime(functor_0,
@@ -315,9 +339,13 @@ EventIdPair EventController<EVENT_COUNT_MAX>::addPwmUsingOffset(const Functor1<i
                                                                 const uint32_t offset,
                                                                 const uint32_t period_ms,
                                                                 const uint32_t on_duration_ms,
-                                                                const uint16_t count,
+                                                                const int32_t count,
                                                                 const int arg)
 {
+  if (count < 0)
+  {
+    return addInfinitePwmUsingOffset(functor_0,functor_1,event_id_origin,offset,period_ms,on_duration_ms,arg);
+  }
   uint8_t event_index_origin = event_id_origin.index;
   if (event_index_origin < EVENT_COUNT_MAX)
   {
