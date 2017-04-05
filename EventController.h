@@ -161,9 +161,8 @@ public:
   Event getEvent(const EventId event_id);
   Event getEvent(const uint8_t event_index);
   void setEventArgToEventIndex(const EventId event_id);
-  bool activeEvents();
-  int countActiveEvents();
-  int getEventCountMax();
+  uint8_t eventsActive();
+  uint8_t eventsAvailable();
 private:
   volatile uint32_t millis_;
   Array<Event,EVENT_COUNT_MAX> event_array_;

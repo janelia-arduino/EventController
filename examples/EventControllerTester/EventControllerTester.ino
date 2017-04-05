@@ -118,7 +118,7 @@ void loop()
   Serial << "clock: " << clock << endl;
   Serial << "counter: " << counter << endl;
   Serial << "triggered: " << triggered << endl;
-  Serial << "countActiveEvents: " << event_controller.countActiveEvents() << endl;
+  Serial << "events active: " << event_controller.eventsActive() << endl;
   Serial << endl;
   if (clock == CLOCK_MAX_COUNT)
   {

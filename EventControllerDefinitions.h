@@ -626,23 +626,31 @@ void EventController<EVENT_COUNT_MAX>::setEventArgToEventIndex(const EventId eve
 }
 
 template <uint8_t EVENT_COUNT_MAX>
-bool EventController<EVENT_COUNT_MAX>::activeEvents()
+uint8_t EventController<EVENT_COUNT_MAX>::eventsActive()
 {
-  return (countActiveEvents() > 0);
-}
-
-template <uint8_t EVENT_COUNT_MAX>
-int EventController<EVENT_COUNT_MAX>::countActiveEvents()
-{
-  int active_events = 0;
+  uint8_t events_active = 0;
   for (uint8_t event_index=0; event_index<event_array_.size(); ++event_index)
   {
     if ((!event_array_[event_index].free) && event_array_[event_index].enabled)
     {
-      ++active_events;
+      ++events_active;
     }
   }
-  return active_events;
+  return events_active;
+}
+
+template <uint8_t EVENT_COUNT_MAX>
+uint8_t EventController<EVENT_COUNT_MAX>::eventsAvailable()
+{
+  uint8_t events_available = 0;
+  for (uint8_t event_index=0; event_index<event_array_.size(); ++event_index)
+  {
+    if (event_array_[event_index].free)
+    {
+      ++events_available;
+    }
+  }
+  return events_available;
 }
 
 template <uint8_t EVENT_COUNT_MAX>
