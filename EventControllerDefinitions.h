@@ -544,6 +544,42 @@ void EventController<EVENT_COUNT_MAX>::remove(const uint8_t event_index)
     {
       event.functor_stop(event.arg);
     }
+    clear(event_index);
+  }
+}
+
+template <uint8_t EVENT_COUNT_MAX>
+void EventController<EVENT_COUNT_MAX>::removeAllEvents()
+{
+  for (size_t i=0; i<EVENT_COUNT_MAX; ++i)
+  {
+    remove(i);
+  }
+}
+
+template <uint8_t EVENT_COUNT_MAX>
+void EventController<EVENT_COUNT_MAX>::clear(const EventId event_id)
+{
+  uint8_t event_index = event_id.index;
+  if ((event_index < EVENT_COUNT_MAX) && (event_array_[event_index].time_start == event_id.time_start))
+  {
+    clear(event_index);
+  }
+}
+
+template <uint8_t EVENT_COUNT_MAX>
+void EventController<EVENT_COUNT_MAX>::clear(const EventIdPair event_id_pair)
+{
+  clear(event_id_pair.event_id_0);
+  clear(event_id_pair.event_id_1);
+}
+
+template <uint8_t EVENT_COUNT_MAX>
+void EventController<EVENT_COUNT_MAX>::clear(const uint8_t event_index)
+{
+  if (event_index < EVENT_COUNT_MAX)
+  {
+    Event & event = event_array_[event_index];
     event.functor = functor_dummy_;
     event.time_start = 0;
     event.time = 0;
@@ -560,11 +596,11 @@ void EventController<EVENT_COUNT_MAX>::remove(const uint8_t event_index)
 }
 
 template <uint8_t EVENT_COUNT_MAX>
-void EventController<EVENT_COUNT_MAX>::removeAllEvents()
+void EventController<EVENT_COUNT_MAX>::clearAllEvents()
 {
   for (size_t i=0; i<EVENT_COUNT_MAX; ++i)
   {
-    remove(i);
+    clear(i);
   }
 }
 
@@ -687,6 +723,12 @@ uint8_t EventController<EVENT_COUNT_MAX>::eventsAvailable()
     }
   }
   return events_available;
+}
+
+template <uint8_t EVENT_COUNT_MAX>
+Array<Event,EVENT_COUNT_MAX> EventController<EVENT_COUNT_MAX>::getEventArray()
+{
+  return event_array_;
 }
 
 template <uint8_t EVENT_COUNT_MAX>

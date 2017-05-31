@@ -154,6 +154,9 @@ public:
   void remove(const EventId event_id);
   void remove(const EventIdPair event_id_pair);
   void removeAllEvents();
+  void clear(const EventId event_id);
+  void clear(const EventIdPair event_id_pair);
+  void clearAllEvents();
   void enable(const EventId event_id);
   void enable(const EventIdPair event_id_pair);
   void disable(const EventId event_id);
@@ -163,6 +166,7 @@ public:
   void setEventArgToEventIndex(const EventId event_id);
   uint8_t eventsActive();
   uint8_t eventsAvailable();
+  Array<Event,EVENT_COUNT_MAX> getEventArray();
 private:
   volatile uint32_t millis_;
   Array<Event,EVENT_COUNT_MAX> event_array_;
@@ -171,6 +175,7 @@ private:
   uint8_t findAvailableEventIndex();
   void update();
   void remove(const uint8_t event_index);
+  void clear(const uint8_t event_index);
   void enable(const uint8_t event_index);
   void disable(const uint8_t event_index);
 };

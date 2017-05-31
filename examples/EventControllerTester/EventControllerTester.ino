@@ -7,7 +7,7 @@
 #include "EventController.h"
 
 
-const int BAUDRATE = 9600;
+const int BAUDRATE = 115200;
 const int LOOP_DELAY = 1000;
 const int CLOCK_PERIOD = 1000;
 const int CLOCK_START_DELAY = 2000;
