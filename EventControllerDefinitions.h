@@ -732,7 +732,7 @@ Array<Event,EVENT_COUNT_MAX> EventController<EVENT_COUNT_MAX>::getEventArray()
 }
 
 template <uint8_t EVENT_COUNT_MAX>
-bool EventController<EVENT_COUNT_MAX>::startTimer()
+void EventController<EVENT_COUNT_MAX>::startTimer()
 {
   noInterrupts();
   Timer1.initialize(MICRO_SEC_PER_MILLI_SEC);
