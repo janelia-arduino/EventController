@@ -1,13 +1,13 @@
-#include "Arduino.h"
-#include "Streaming.h"
-#include "Array.h"
-#include "TimerOne.h"
-#include "Functor.h"
-#include "FunctorCallbacks.h"
-#include "EventController.h"
+#include <Arduino.h>
+#include <Streaming.h>
+#include <Array.h>
+#include <TimerOne.h>
+#include <Functor.h>
+#include <FunctorCallbacks.h>
+#include <EventController.h>
 
 
-const int BAUDRATE = 115200;
+const long BAUDRATE = 115200;
 const int LED_PIN = 13;
 const int DELAY_MS = 2000;
 const int PERIOD_MS = 2000;

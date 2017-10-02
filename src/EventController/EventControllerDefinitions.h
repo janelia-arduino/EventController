@@ -795,6 +795,4 @@ void EventController<EVENT_COUNT_MAX>::update()
   }
 }
 
-// EventController event_controller;
-
 #endif

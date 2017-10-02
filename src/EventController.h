@@ -7,15 +7,11 @@
 // ----------------------------------------------------------------------------
 #ifndef EVENT_CONTROLLER_H
 #define EVENT_CONTROLLER_H
-#if defined(ARDUINO) && ARDUINO >= 100
-#include "Arduino.h"
-#else
-#include "WProgram.h"
-#endif
-#include "Array.h"
-#include "TimerOne.h"
-#include "Functor.h"
-#include "FunctorCallbacks.h"
+#include <Arduino.h>
+#include <Array.h>
+#include <TimerOne.h>
+#include <Functor.h>
+#include <FunctorCallbacks.h>
 
 
 struct Event
@@ -183,6 +179,6 @@ private:
 bool operator==(const EventId& lhs, const EventId& rhs);
 bool operator==(const EventIdPair& lhs, const EventIdPair& rhs);
 
-#include "EventControllerDefinitions.h"
+#include "EventController/EventControllerDefinitions.h"
 
 #endif

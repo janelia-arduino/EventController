@@ -5,7 +5,7 @@
 // Authors:
 // Peter Polidoro polidorop@janelia.hhmi.org
 // ----------------------------------------------------------------------------
-#include "EventController.h"
+#include "../EventController.h"
 
 
 bool operator==(const EventId& lhs, const EventId& rhs)
