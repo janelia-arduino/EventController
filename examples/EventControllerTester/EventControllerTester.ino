@@ -7,7 +7,7 @@
 #include <EventController.h>
 
 
-const long BAUDRATE = 115200;
+const long BAUD = 115200;
 const int LOOP_DELAY = 1000;
 const int CLOCK_PERIOD = 1000;
 const int CLOCK_START_DELAY = 2000;
@@ -73,7 +73,7 @@ void ledPwmStopEventHandler(int arg=-1)
 
 void setup()
 {
-  Serial.begin(BAUDRATE);
+  Serial.begin(BAUD);
   delay(1000);
 
   pinMode(LED_PIN, OUTPUT);

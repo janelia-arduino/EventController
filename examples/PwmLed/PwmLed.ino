@@ -7,7 +7,7 @@
 #include <EventController.h>
 
 
-const long BAUDRATE = 115200;
+const long BAUD = 115200;
 const int LED_PIN = 13;
 const int DELAY_MS = 2000;
 const int PERIOD_MS = 2000;
@@ -61,7 +61,7 @@ void getInfo()
 
 void setup()
 {
-  Serial.begin(BAUDRATE);
+  Serial.begin(BAUD);
 
   pinMode(LED_PIN,OUTPUT);
   digitalWrite(LED_PIN,LOW);
