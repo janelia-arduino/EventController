@@ -1,13 +1,10 @@
-#include <Arduino.h>
 #include <Streaming.h>
-#include <Array.h>
-#include <TimerOne.h>
 #include <Functor.h>
-#include <FunctorCallbacks.h>
 #include <EventController.h>
 
 
 const long BAUD = 115200;
+const size_t TIMER_NUMBER = 1;
 const int LOOP_DELAY = 1000;
 const int CLOCK_PERIOD = 1000;
 const int CLOCK_START_DELAY = 2000;
@@ -79,7 +76,7 @@ void setup()
   pinMode(LED_PIN, OUTPUT);
   ledOffEventHandler();
 
-  event_controller.setup();
+  event_controller.setup(TIMER_NUMBER);
   clock_event_id = event_controller.addInfiniteRecurringEventUsingDelay(makeFunctor((Functor1<int> *)0,clockUpdateEventHandler),
                                                                         CLOCK_START_DELAY,
                                                                         CLOCK_PERIOD);

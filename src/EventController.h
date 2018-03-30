@@ -10,6 +10,7 @@
 #include <Arduino.h>
 #include <Array.h>
 #include <TimerOne.h>
+#include <TimerThree.h>
 #include <Functor.h>
 #include <FunctorCallbacks.h>
 
@@ -50,8 +51,9 @@ template <uint8_t EVENT_COUNT_MAX>
 class EventController
 {
 public:
+  EventController();
   enum{MICRO_SEC_PER_MILLI_SEC=1000};
-  void setup();
+  void setup(const size_t timer_number=1);
   uint32_t getTime();
   void setTime(const uint32_t time=0);
   EventId addEvent(const Functor1<int> & functor,
@@ -167,6 +169,8 @@ private:
   volatile uint32_t millis_;
   Array<Event,EVENT_COUNT_MAX> event_array_;
   const Functor1<int> functor_dummy_;
+  size_t timer_number_;
+
   void startTimer();
   uint8_t findAvailableEventIndex();
   void update();

@@ -1,13 +1,10 @@
-#include <Arduino.h>
 #include <Streaming.h>
-#include <Array.h>
-#include <TimerOne.h>
 #include <Functor.h>
-#include <FunctorCallbacks.h>
 #include <EventController.h>
 
 
 const long BAUD = 115200;
+const size_t TIMER_NUMBER = 3;
 const int LED_PIN = 13;
 const int DELAY_MS = 2000;
 const int PERIOD_MS = 2000;
@@ -66,7 +63,7 @@ void setup()
   pinMode(LED_PIN,OUTPUT);
   digitalWrite(LED_PIN,LOW);
 
-  event_controller.setup();
+  event_controller.setup(TIMER_NUMBER);
 
   EventIdPair event_id_pair = event_controller.addPwmUsingDelay(makeFunctor((Functor1<int> *)0,ledOnEventHandler),
                                                                 makeFunctor((Functor1<int> *)0,ledOffEventHandler),

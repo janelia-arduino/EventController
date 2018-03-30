@@ -10,8 +10,22 @@
 
 
 template <uint8_t EVENT_COUNT_MAX>
-void EventController<EVENT_COUNT_MAX>::setup()
+EventController<EVENT_COUNT_MAX>::EventController()
 {
+  timer_number_ = 1;
+}
+
+template <uint8_t EVENT_COUNT_MAX>
+void EventController<EVENT_COUNT_MAX>::setup(const size_t timer_number)
+{
+  if ((timer_number == 1) || (timer_number == 3))
+  {
+    timer_number_ = timer_number;
+  }
+  else
+  {
+    timer_number_ = 1;
+  }
   event_array_.fill(Event());
   removeAllEvents();
   startTimer();
@@ -735,11 +749,25 @@ template <uint8_t EVENT_COUNT_MAX>
 void EventController<EVENT_COUNT_MAX>::startTimer()
 {
   noInterrupts();
-  Timer1.initialize(MICRO_SEC_PER_MILLI_SEC);
+  if (timer_number_ == 1)
+  {
+    Timer1.initialize(MICRO_SEC_PER_MILLI_SEC);
+  }
+  else if (timer_number_ == 3)
+  {
+    Timer3.initialize(MICRO_SEC_PER_MILLI_SEC);
+  }
   FunctorCallbacks::Callback callback = FunctorCallbacks::add(makeFunctor((Functor0 *)0,*this,&EventController<EVENT_COUNT_MAX>::update));
   if (callback)
   {
-    Timer1.attachInterrupt(callback);
+    if (timer_number_ == 1)
+    {
+      Timer1.attachInterrupt(callback);
+    }
+    else if (timer_number_ == 3)
+    {
+      Timer3.attachInterrupt(callback);
+    }
   }
   interrupts();
 }
