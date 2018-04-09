@@ -52,7 +52,6 @@ class EventController
 {
 public:
   EventController();
-  EventController(const size_t timer_number);
   enum{MICRO_SEC_PER_MILLI_SEC=1000};
   void setup(const size_t timer_number=1);
   uint32_t getTime();

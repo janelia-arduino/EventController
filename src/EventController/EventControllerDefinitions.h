@@ -16,12 +16,6 @@ EventController<EVENT_COUNT_MAX>::EventController()
 }
 
 template <uint8_t EVENT_COUNT_MAX>
-EventController<EVENT_COUNT_MAX>::EventController(const size_t timer_number)
-{
-  setup(timer_number);
-}
-
-template <uint8_t EVENT_COUNT_MAX>
 void EventController<EVENT_COUNT_MAX>::setup(const size_t timer_number)
 {
   if ((timer_number == 1) || (timer_number == 3))
