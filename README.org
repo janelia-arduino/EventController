@@ -1,0 +1,15 @@
+#+TITLE: EventController
+#+AUTHOR: Peter Polidoro
+#+EMAIL: peterpolidoro@gmail.com
+
+* Library Information
+  - Author :: Peter Polidoro
+  - License :: BSD
+
+* Library Examples
+
+  [[./examples]]
+
+* Library Dependencies
+
+  [[https://github.com/janelia-arduino/arduino-libraries][arduino-libraries]]
