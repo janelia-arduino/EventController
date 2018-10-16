@@ -16,7 +16,7 @@ EventController<EVENT_COUNT_MAX>::EventController()
 }
 
 template <uint8_t EVENT_COUNT_MAX>
-void EventController<EVENT_COUNT_MAX>::setup(const size_t timer_number)
+void EventController<EVENT_COUNT_MAX>::setup(size_t timer_number)
 {
   if ((timer_number == 1) || (timer_number == 3))
   {
@@ -42,7 +42,7 @@ uint32_t EventController<EVENT_COUNT_MAX>::getTime()
 }
 
 template <uint8_t EVENT_COUNT_MAX>
-void EventController<EVENT_COUNT_MAX>::setTime(const uint32_t time)
+void EventController<EVENT_COUNT_MAX>::setTime(uint32_t time)
 {
   noInterrupts();
   millis_ = time;
@@ -51,7 +51,7 @@ void EventController<EVENT_COUNT_MAX>::setTime(const uint32_t time)
 
 template <uint8_t EVENT_COUNT_MAX>
 EventId EventController<EVENT_COUNT_MAX>::addEvent(const Functor1<int> & functor,
-  const int arg)
+  int arg)
 {
   return addEventUsingTime(functor,
     0,
@@ -60,9 +60,9 @@ EventId EventController<EVENT_COUNT_MAX>::addEvent(const Functor1<int> & functor
 
 template <uint8_t EVENT_COUNT_MAX>
 EventId EventController<EVENT_COUNT_MAX>::addRecurringEvent(const Functor1<int> & functor,
-  const uint32_t period_ms,
-  const int32_t count,
-  const int arg)
+  uint32_t period_ms,
+  int32_t count,
+  int arg)
 
 {
   if (count < 0)
@@ -78,8 +78,8 @@ EventId EventController<EVENT_COUNT_MAX>::addRecurringEvent(const Functor1<int> 
 
 template <uint8_t EVENT_COUNT_MAX>
 EventId EventController<EVENT_COUNT_MAX>::addInfiniteRecurringEvent(const Functor1<int> & functor,
-  const uint32_t period_ms,
-  const int arg)
+  uint32_t period_ms,
+  int arg)
 {
   return addInfiniteRecurringEventUsingTime(functor,
     0,
@@ -89,8 +89,8 @@ EventId EventController<EVENT_COUNT_MAX>::addInfiniteRecurringEvent(const Functo
 
 template <uint8_t EVENT_COUNT_MAX>
 EventId EventController<EVENT_COUNT_MAX>::addEventUsingTime(const Functor1<int> & functor,
-  const uint32_t time,
-  const int arg)
+  uint32_t time,
+  int arg)
 {
   uint32_t time_start = getTime();
   uint8_t event_index = findAvailableEventIndex();
@@ -116,10 +116,10 @@ EventId EventController<EVENT_COUNT_MAX>::addEventUsingTime(const Functor1<int> 
 
 template <uint8_t EVENT_COUNT_MAX>
 EventId EventController<EVENT_COUNT_MAX>::addRecurringEventUsingTime(const Functor1<int> & functor,
-  const uint32_t time,
-  const uint32_t period_ms,
-  const int32_t count,
-  const int arg)
+  uint32_t time,
+  uint32_t period_ms,
+  int32_t count,
+  int arg)
 {
   if (count < 0)
   {
@@ -149,9 +149,9 @@ EventId EventController<EVENT_COUNT_MAX>::addRecurringEventUsingTime(const Funct
 
 template <uint8_t EVENT_COUNT_MAX>
 EventId EventController<EVENT_COUNT_MAX>::addInfiniteRecurringEventUsingTime(const Functor1<int> & functor,
-  const uint32_t time,
-  const uint32_t period_ms,
-  const int arg)
+  uint32_t time,
+  uint32_t period_ms,
+  int arg)
 {
   uint32_t time_start = getTime();
   uint8_t event_index = findAvailableEventIndex();
@@ -177,8 +177,8 @@ EventId EventController<EVENT_COUNT_MAX>::addInfiniteRecurringEventUsingTime(con
 
 template <uint8_t EVENT_COUNT_MAX>
 EventId EventController<EVENT_COUNT_MAX>::addEventUsingDelay(const Functor1<int> & functor,
-  const uint32_t delay,
-  const int arg)
+  uint32_t delay,
+  int arg)
 {
   uint32_t time_now = getTime();
   uint32_t time = time_now + delay;
@@ -189,10 +189,10 @@ EventId EventController<EVENT_COUNT_MAX>::addEventUsingDelay(const Functor1<int>
 
 template <uint8_t EVENT_COUNT_MAX>
 EventId EventController<EVENT_COUNT_MAX>::addRecurringEventUsingDelay(const Functor1<int> & functor,
-  const uint32_t delay,
-  const uint32_t period_ms,
-  const int32_t count,
-  const int arg)
+  uint32_t delay,
+  uint32_t period_ms,
+  int32_t count,
+  int arg)
 {
   if (count < 0)
   {
@@ -209,9 +209,9 @@ EventId EventController<EVENT_COUNT_MAX>::addRecurringEventUsingDelay(const Func
 
 template <uint8_t EVENT_COUNT_MAX>
 EventId EventController<EVENT_COUNT_MAX>::addInfiniteRecurringEventUsingDelay(const Functor1<int> & functor,
-  const uint32_t delay,
-  const uint32_t period_ms,
-  const int arg)
+  uint32_t delay,
+  uint32_t period_ms,
+  int arg)
 {
   uint32_t time_now = getTime();
   uint32_t time = time_now + delay;
@@ -224,8 +224,8 @@ EventId EventController<EVENT_COUNT_MAX>::addInfiniteRecurringEventUsingDelay(co
 template <uint8_t EVENT_COUNT_MAX>
 EventId EventController<EVENT_COUNT_MAX>::addEventUsingOffset(const Functor1<int> & functor,
   const EventId event_id_origin,
-  const uint32_t offset,
-  const int arg)
+  uint32_t offset,
+  int arg)
 {
   uint8_t event_index_origin = event_id_origin.index;
   if (event_index_origin < EVENT_COUNT_MAX)
@@ -245,10 +245,10 @@ EventId EventController<EVENT_COUNT_MAX>::addEventUsingOffset(const Functor1<int
 template <uint8_t EVENT_COUNT_MAX>
 EventId EventController<EVENT_COUNT_MAX>::addRecurringEventUsingOffset(const Functor1<int> & functor,
   const EventId event_id_origin,
-  const uint32_t offset,
-  const uint32_t period_ms,
-  const int32_t count,
-  const int arg)
+  uint32_t offset,
+  uint32_t period_ms,
+  int32_t count,
+  int arg)
 {
   if (count < 0)
   {
@@ -274,9 +274,9 @@ EventId EventController<EVENT_COUNT_MAX>::addRecurringEventUsingOffset(const Fun
 template <uint8_t EVENT_COUNT_MAX>
 EventId EventController<EVENT_COUNT_MAX>::addInfiniteRecurringEventUsingOffset(const Functor1<int> & functor,
   const EventId event_id_origin,
-  const uint32_t offset,
-  const uint32_t period_ms,
-  const int arg)
+  uint32_t offset,
+  uint32_t period_ms,
+  int arg)
 {
   uint8_t event_index_origin = event_id_origin.index;
   if (event_index_origin < EVENT_COUNT_MAX)
@@ -297,11 +297,11 @@ EventId EventController<EVENT_COUNT_MAX>::addInfiniteRecurringEventUsingOffset(c
 template <uint8_t EVENT_COUNT_MAX>
 EventIdPair EventController<EVENT_COUNT_MAX>::addPwmUsingTime(const Functor1<int> & functor_0,
   const Functor1<int> & functor_1,
-  const uint32_t time,
-  const uint32_t period_ms,
-  const uint32_t on_duration_ms,
-  const int32_t count,
-  const int arg)
+  uint32_t time,
+  uint32_t period_ms,
+  uint32_t on_duration_ms,
+  int32_t count,
+  int arg)
 {
   if (count < 0)
   {
@@ -344,11 +344,11 @@ EventIdPair EventController<EVENT_COUNT_MAX>::addPwmUsingTime(const Functor1<int
 template <uint8_t EVENT_COUNT_MAX>
 EventIdPair EventController<EVENT_COUNT_MAX>::addPwmUsingDelay(const Functor1<int> & functor_0,
   const Functor1<int> & functor_1,
-  const uint32_t delay,
-  const uint32_t period_ms,
-  const uint32_t on_duration_ms,
-  const int32_t count,
-  const int arg)
+  uint32_t delay,
+  uint32_t period_ms,
+  uint32_t on_duration_ms,
+  int32_t count,
+  int arg)
 {
   if (count < 0)
   {
@@ -369,11 +369,11 @@ template <uint8_t EVENT_COUNT_MAX>
 EventIdPair EventController<EVENT_COUNT_MAX>::addPwmUsingOffset(const Functor1<int> & functor_0,
   const Functor1<int> & functor_1,
   const EventId event_id_origin,
-  const uint32_t offset,
-  const uint32_t period_ms,
-  const uint32_t on_duration_ms,
-  const int32_t count,
-  const int arg)
+  uint32_t offset,
+  uint32_t period_ms,
+  uint32_t on_duration_ms,
+  int32_t count,
+  int arg)
 {
   if (count < 0)
   {
@@ -401,10 +401,10 @@ EventIdPair EventController<EVENT_COUNT_MAX>::addPwmUsingOffset(const Functor1<i
 template <uint8_t EVENT_COUNT_MAX>
 EventIdPair EventController<EVENT_COUNT_MAX>::addInfinitePwmUsingTime(const Functor1<int> & functor_0,
   const Functor1<int> & functor_1,
-  const uint32_t time,
-  const uint32_t period_ms,
-  const uint32_t on_duration_ms,
-  const int arg)
+  uint32_t time,
+  uint32_t period_ms,
+  uint32_t on_duration_ms,
+  int arg)
 {
   EventIdPair event_id_pair;
   if ((on_duration_ms > 0) && (on_duration_ms < period_ms))
@@ -439,10 +439,10 @@ EventIdPair EventController<EVENT_COUNT_MAX>::addInfinitePwmUsingTime(const Func
 template <uint8_t EVENT_COUNT_MAX>
 EventIdPair EventController<EVENT_COUNT_MAX>::addInfinitePwmUsingDelay(const Functor1<int> & functor_0,
   const Functor1<int> & functor_1,
-  const uint32_t delay,
-  const uint32_t period_ms,
-  const uint32_t on_duration_ms,
-  const int arg)
+  uint32_t delay,
+  uint32_t period_ms,
+  uint32_t on_duration_ms,
+  int arg)
 {
   uint32_t time_now = getTime();
   uint32_t time = time_now + delay;
@@ -458,10 +458,10 @@ template <uint8_t EVENT_COUNT_MAX>
 EventIdPair EventController<EVENT_COUNT_MAX>::addInfinitePwmUsingOffset(const Functor1<int> & functor_0,
   const Functor1<int> & functor_1,
   const EventId event_id_origin,
-  const uint32_t offset,
-  const uint32_t period_ms,
-  const uint32_t on_duration_ms,
-  const int arg)
+  uint32_t offset,
+  uint32_t period_ms,
+  uint32_t on_duration_ms,
+  int arg)
 {
   uint8_t event_index_origin = event_id_origin.index;
   if (event_index_origin < EVENT_COUNT_MAX)
@@ -482,7 +482,8 @@ EventIdPair EventController<EVENT_COUNT_MAX>::addInfinitePwmUsingOffset(const Fu
 }
 
 template <uint8_t EVENT_COUNT_MAX>
-void EventController<EVENT_COUNT_MAX>::addStartFunctor(const EventId event_id, const Functor1<int> & functor)
+void EventController<EVENT_COUNT_MAX>::addStartFunctor(const EventId event_id,
+  const Functor1<int> & functor)
 {
   uint8_t event_index = event_id.index;
   if ((event_index < EVENT_COUNT_MAX) &&
@@ -494,7 +495,8 @@ void EventController<EVENT_COUNT_MAX>::addStartFunctor(const EventId event_id, c
 }
 
 template <uint8_t EVENT_COUNT_MAX>
-void EventController<EVENT_COUNT_MAX>::addStopFunctor(const EventId event_id, const Functor1<int> & functor)
+void EventController<EVENT_COUNT_MAX>::addStopFunctor(const EventId event_id,
+  const Functor1<int> & functor)
 {
   uint8_t event_index = event_id.index;
   if ((event_index < EVENT_COUNT_MAX) &&
@@ -506,7 +508,8 @@ void EventController<EVENT_COUNT_MAX>::addStopFunctor(const EventId event_id, co
 }
 
 template <uint8_t EVENT_COUNT_MAX>
-void EventController<EVENT_COUNT_MAX>::addStartFunctor(const EventIdPair event_id_pair, const Functor1<int> & functor)
+void EventController<EVENT_COUNT_MAX>::addStartFunctor(const EventIdPair event_id_pair,
+  const Functor1<int> & functor)
 {
   const EventId & event_id = event_id_pair.event_id_0;
   uint8_t event_index = event_id.index;
@@ -519,7 +522,8 @@ void EventController<EVENT_COUNT_MAX>::addStartFunctor(const EventIdPair event_i
 }
 
 template <uint8_t EVENT_COUNT_MAX>
-void EventController<EVENT_COUNT_MAX>::addStopFunctor(const EventIdPair event_id_pair, const Functor1<int> & functor)
+void EventController<EVENT_COUNT_MAX>::addStopFunctor(const EventIdPair event_id_pair,
+  const Functor1<int> & functor)
 {
   const EventId & event_id = event_id_pair.event_id_0;
   uint8_t event_index = event_id.index;
@@ -549,7 +553,7 @@ void EventController<EVENT_COUNT_MAX>::remove(const EventIdPair event_id_pair)
 }
 
 template <uint8_t EVENT_COUNT_MAX>
-void EventController<EVENT_COUNT_MAX>::remove(const uint8_t event_index)
+void EventController<EVENT_COUNT_MAX>::remove(uint8_t event_index)
 {
   if (event_index < EVENT_COUNT_MAX)
   {
@@ -589,7 +593,7 @@ void EventController<EVENT_COUNT_MAX>::clear(const EventIdPair event_id_pair)
 }
 
 template <uint8_t EVENT_COUNT_MAX>
-void EventController<EVENT_COUNT_MAX>::clear(const uint8_t event_index)
+void EventController<EVENT_COUNT_MAX>::clear(uint8_t event_index)
 {
   if (event_index < EVENT_COUNT_MAX)
   {
@@ -638,7 +642,7 @@ void EventController<EVENT_COUNT_MAX>::enable(const EventIdPair event_id_pair)
 }
 
 template <uint8_t EVENT_COUNT_MAX>
-void EventController<EVENT_COUNT_MAX>::enable(const uint8_t event_index)
+void EventController<EVENT_COUNT_MAX>::enable(uint8_t event_index)
 {
   if ((event_index < EVENT_COUNT_MAX) && !event_array_[event_index].free)
   {
@@ -666,7 +670,7 @@ void EventController<EVENT_COUNT_MAX>::disable(const EventIdPair event_id_pair)
 }
 
 template <uint8_t EVENT_COUNT_MAX>
-void EventController<EVENT_COUNT_MAX>::disable(const uint8_t event_index)
+void EventController<EVENT_COUNT_MAX>::disable(uint8_t event_index)
 {
   if ((event_index < EVENT_COUNT_MAX) && !event_array_[event_index].free)
   {
@@ -689,7 +693,7 @@ Event EventController<EVENT_COUNT_MAX>::getEvent(const EventId event_id)
 }
 
 template <uint8_t EVENT_COUNT_MAX>
-Event EventController<EVENT_COUNT_MAX>::getEvent(const uint8_t event_index)
+Event EventController<EVENT_COUNT_MAX>::getEvent(uint8_t event_index)
 {
   if (event_index < EVENT_COUNT_MAX)
   {
