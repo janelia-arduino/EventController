@@ -66,11 +66,11 @@ void setup()
   event_controller.setup(TIMER_NUMBER);
 
   EventIdPair event_id_pair = event_controller.addPwmUsingDelay(makeFunctor((Functor1<int> *)0,ledOnEventHandler),
-                                                                makeFunctor((Functor1<int> *)0,ledOffEventHandler),
-                                                                DELAY_MS,
-                                                                PERIOD_MS,
-                                                                ON_DURATION_MS,
-                                                                COUNT);
+    makeFunctor((Functor1<int> *)0,ledOffEventHandler),
+    DELAY_MS,
+    PERIOD_MS,
+    ON_DURATION_MS,
+    COUNT);
   event_controller.addStartFunctor(event_id_pair,makeFunctor((Functor1<int> *)0,setGetInfoFalseHandler));
   event_controller.addStopFunctor(event_id_pair,makeFunctor((Functor1<int> *)0,setGetInfoTrueHandler));
   event_controller.enable(event_id_pair);
