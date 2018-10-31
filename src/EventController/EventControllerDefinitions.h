@@ -508,6 +508,19 @@ void EventController<EVENT_COUNT_MAX>::addStopFunctor(const EventId event_id,
 }
 
 template <uint8_t EVENT_COUNT_MAX>
+void EventController<EVENT_COUNT_MAX>::replaceFunctor(const EventId event_id,
+  const Functor1<int> & functor)
+{
+  uint8_t event_index = event_id.index;
+  if ((event_index < EVENT_COUNT_MAX) &&
+    (event_array_[event_index].time_start == event_id.time_start) &&
+    !event_array_[event_index].free)
+  {
+    event_array_[event_index].functor = functor;
+  }
+}
+
+template <uint8_t EVENT_COUNT_MAX>
 void EventController<EVENT_COUNT_MAX>::addStartFunctor(const EventIdPair event_id_pair,
   const Functor1<int> & functor)
 {
@@ -532,6 +545,30 @@ void EventController<EVENT_COUNT_MAX>::addStopFunctor(const EventIdPair event_id
     !event_array_[event_index].free)
   {
     event_array_[event_index].functor_stop = functor;
+  }
+}
+
+template <uint8_t EVENT_COUNT_MAX>
+void EventController<EVENT_COUNT_MAX>::replaceFunctors(const EventIdPair event_id_pair,
+  const Functor1<int> & functor_0,
+  const Functor1<int> & functor_1)
+{
+  const EventId & event_id_0 = event_id_pair.event_id_0;
+  uint8_t event_index_0 = event_id_0.index;
+  if ((event_index_0 < EVENT_COUNT_MAX) &&
+    (event_array_[event_index_0].time_start == event_id_0.time_start) &&
+    !event_array_[event_index_0].free)
+  {
+    event_array_[event_index_0].functor = functor_0;
+  }
+
+  const EventId & event_id_1 = event_id_pair.event_id_1;
+  uint8_t event_index_1 = event_id_1.index;
+  if ((event_index_1 < EVENT_COUNT_MAX) &&
+    (event_array_[event_index_1].time_start == event_id_1.time_start) &&
+    !event_array_[event_index_1].free)
+  {
+    event_array_[event_index_1].functor = functor_1;
   }
 }
 

@@ -149,10 +149,15 @@ public:
     const Functor1<int> & functor);
   void addStopFunctor(const EventId event_id,
     const Functor1<int> & functor);
+  void replaceFunctor(const EventId event_id,
+    const Functor1<int> & functor);
   void addStartFunctor(const EventIdPair event_id_pair,
     const Functor1<int> & functor);
   void addStopFunctor(const EventIdPair event_id_pair,
     const Functor1<int> & functor);
+  void replaceFunctors(const EventIdPair event_id_pair,
+    const Functor1<int> & functor_0,
+    const Functor1<int> & functor_1);
   void remove(const EventId event_id);
   void remove(const EventIdPair event_id_pair);
   void removeAllEvents();
