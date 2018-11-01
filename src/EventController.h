@@ -193,6 +193,10 @@ bool operator==(const EventId& lhs,
   const EventId& rhs);
 bool operator==(const EventIdPair& lhs,
   const EventIdPair& rhs);
+bool operator!=(const EventId& lhs,
+  const EventId& rhs);
+bool operator!=(const EventIdPair& lhs,
+  const EventIdPair& rhs);
 
 #include "EventController/EventControllerDefinitions.h"
 

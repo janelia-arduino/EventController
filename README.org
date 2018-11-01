@@ -4,7 +4,7 @@
 
 * Library Information
   - Name :: EventController
-  - Version :: 2.5.0
+  - Version :: 2.6.0
   - License :: BSD
   - URL :: https://github.com/janelia-arduino/EventController
   - Author :: Peter Polidoro
