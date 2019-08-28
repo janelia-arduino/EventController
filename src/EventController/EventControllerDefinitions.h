@@ -13,6 +13,7 @@ template <uint8_t EVENT_COUNT_MAX>
 EventController<EVENT_COUNT_MAX>::EventController()
 {
   timer_number_ = 1;
+  millis_ = 0;
 }
 
 template <uint8_t EVENT_COUNT_MAX>
@@ -610,6 +611,7 @@ void EventController<EVENT_COUNT_MAX>::removeAllEvents()
   {
     remove(i);
   }
+  millis_ = 0;
 }
 
 template <uint8_t EVENT_COUNT_MAX>
@@ -657,6 +659,7 @@ void EventController<EVENT_COUNT_MAX>::clearAllEvents()
   {
     clear(i);
   }
+  millis_ = 0;
 }
 
 template <uint8_t EVENT_COUNT_MAX>
@@ -836,25 +839,22 @@ void EventController<EVENT_COUNT_MAX>::update()
     Event& event = event_array_[event_index];
     if ((!event.free) && (event.time <= millis_))
     {
-      if ((event.infinite) || (event.inc < event.count))
+      if ((event.enabled) && ((event.infinite) || (event.inc < event.count)))
       {
         while ((event.period_ms > 0) &&
           (event.time <= millis_))
         {
           event.time += event.period_ms;
         }
-        if (event.enabled)
+        if (event.functor_start && (event.inc == 0))
         {
-          if (event.functor_start && (event.inc == 0))
-          {
-            event.functor_start(event.arg);
-          }
-          if (event.functor)
-          {
-            event.functor(event.arg);
-          }
-          ++event.inc;
+          event.functor_start(event.arg);
         }
+        if (event.functor)
+        {
+          event.functor(event.arg);
+        }
+        ++event.inc;
       }
       else
       {
