@@ -1,6 +1,6 @@
 #+TITLE: EventController
 #+AUTHOR: Peter Polidoro
-#+EMAIL: peterpolidoro@gmail.com
+#+EMAIL: peter@polidoro.io
 
 * Library Information
   - Name :: EventController
@@ -8,4 +8,4 @@
   - License :: BSD
   - URL :: https://github.com/janelia-arduino/EventController
   - Author :: Peter Polidoro
-  - Email :: peterpolidoro@gmail.com
+  - Email :: peter@polidoro.io
