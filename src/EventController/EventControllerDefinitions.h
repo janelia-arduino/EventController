@@ -309,6 +309,14 @@ EventIdPair EventController<EVENT_COUNT_MAX>::addPwmUsingTime(const Functor1<int
     return addInfinitePwmUsingTime(functor_0,functor_1,time,period_ms,on_duration_ms,arg);
   }
   EventIdPair event_id_pair;
+  if ((period_ms == 0) && (on_duration_ms == 0))
+  {
+    return event_id_pair;
+  }
+  if (period_ms < on_duration_ms)
+  {
+    period_ms = on_duration_ms;
+  }
   if ((on_duration_ms > 0) && (on_duration_ms < period_ms))
   {
     event_id_pair.event_id_0 = addRecurringEventUsingTime(functor_0,
